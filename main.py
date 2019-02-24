@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from Ft_array import *
 from describe import *
-# from histogram import *
+from histogram import *
 import argparse
 from pandas.api.types import is_string_dtype
 
@@ -17,6 +17,8 @@ def main():
     opt = parser.parse_args()
     if (opt.scrypt == 'describe'):
         describe(opt.dataset)
+    elif (opt.scrypt == 'histogram'):
+        histogram(opt.dataset)
 
 if __name__ == '__main__':
     main()

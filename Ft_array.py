@@ -1,3 +1,4 @@
+from feature_scaling import *
 import math
 
 def ft_min(array):
@@ -42,3 +43,7 @@ def ft_first_quar(array):
 
 def ft_third_quar(array):
     return ft_percentile(array.tolist(), 75)
+
+def ft_normalize(array):
+   return rescaling(array)
+
