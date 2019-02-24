@@ -7,10 +7,7 @@ def histogram(file):
     points = pd.read_csv(file).head(50)
     no_int = points.select_dtypes(include=['object'])
     only_int = points.select_dtypes(exclude=['object'])
-    house_col = 'Hogwarts House'
-    houses = no_int.groupby(house_col)[house_col].first()
     no_int = points.select_dtypes(include=['object'])
-    min_c = only_int
     del only_int['Index']
     min_c = only_int.apply(mean_normalization)
 
@@ -18,7 +15,5 @@ def histogram(file):
     min_c.plot.hist(density = True, bins =5, stacked=True, histtype='bar', alpha=0.5, fill=True)
     # min_c.plot.hist( histtype='step', stacked=True, fill=False)
     # min_c.plot.hist(alpha=0.5,histtype='bar')
-
     plt.show()
-    return
 
