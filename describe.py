@@ -33,16 +33,3 @@ def describe(file):
     print(only_int.describe().to_string())
     print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c], index=name).to_string(col_space=2))
 
-    # print(pd.DataFrame(std).T.to_string(col_space=2, header=False))
-    # print(pd.DataFrame(min_c).T.to_string(col_space=2, header=False))
-    # print(pd.DataFrame(max_c).T.to_string(justify='left',col_space=2, header=False))
-    # print(pd.DataFrame(mean).T.to_string(header=False))
-
-    # print(points.select_dtypes(exclude=['object']).describe())
-    # print(pd.DataFrame(points, columns=['First Name']))
-    # print(is_string_dtype(pd.DataFrame(points, columns=['First Name'])))
-
-    # points = np.genfromtxt(opt.dataset, delimiter=",")
-    # print(points)
-
-
