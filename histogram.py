@@ -10,8 +10,8 @@ def histogram(file):
     house_column = 'Hogwarts House'
     hist_col = 'Care of Magical Creatures'
 
-    points = pd.read_csv(file).head(50).dropna()
-    no_int = points.select_dtypes(include=['object'])
+    points = pd.read_csv(file).dropna()
+
     only_int = points.select_dtypes(exclude=['object'])
     only_int.apply(mean_normalization)
     CMC = only_int[hist_col]
