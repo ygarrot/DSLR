@@ -11,8 +11,8 @@ def scatter(file):
 
     # min_c.plot.hist(density = True, bins =5, stacked=True, histtype='bar', alpha=0.5, fill=True)
     # only_int.plot.scatter(x=min_c.columns, y=min_c.columns)
-    ax1 = only_int.plot(kind='scatter', x='Index', y='Divination', color='r')    
-    ax2 = only_int.plot(kind='scatter', x='Index', y='Astronomy', color='g', ax=ax1)    
+    ax1 = only_int.plot(kind='scatter', x='Astronomy', y='Defense Against the Dark Arts', color='r')    
+    # ax2 = only_int.plot(kind='scatter', x='Index', y='Astronomy', color='g', ax=ax1)    
     # ax3 = df.plot(kind='scatter', x='e', y='f', color='b', ax=ax1)
 
     plt.show()
