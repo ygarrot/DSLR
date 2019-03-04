@@ -5,8 +5,7 @@ import argparse
 from pandas.api.types import is_string_dtype
 
 def describe(file):
-    # points = pd.read_csv(opt.dataset).head()
-    points = pd.read_csv(file).head()
+    points = pd.read_csv(file).dropna()
 
     only_int = points.select_dtypes(exclude=['object'])
 
@@ -29,7 +28,6 @@ def describe(file):
             "75%",
             "Max"]
 
-    print(name)
     print(only_int.describe().to_string())
     print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c], index=name).to_string(col_space=2))
 
