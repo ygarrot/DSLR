@@ -21,7 +21,7 @@ def main():
         describe(opt.dataset)
     elif (opt.scrypt == 'histogram'):
         histogram(opt.dataset)
-    elif (opt.scrypt == 'scatter'):
+    elif (opt.scrypt == 'scatter_plot'):
         scatter(opt.dataset)
     elif (opt.scrypt == 'pair_plot'):
         pair_plot(opt.dataset)
