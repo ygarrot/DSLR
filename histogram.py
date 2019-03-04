@@ -1,19 +1,20 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 from feature_scaling import *
 import numpy as np
 import pandas as pd
 
 def histogram(file):
-    points = pd.read_csv(file).head(50)
+    sns.set(style="ticks", color_codes=True)
+
+    house_column = 'Hogwarts House'
+    hist_col = 'Care of Magical Creatures'
+
+    points = pd.read_csv(file).head(50).dropna()
     no_int = points.select_dtypes(include=['object'])
     only_int = points.select_dtypes(exclude=['object'])
-    no_int = points.select_dtypes(include=['object'])
-    del only_int['Index']
-    min_c = only_int.apply(mean_normalization)
-
-    # min_c.plot.hist(density=True, histtype='bar')
-    min_c.plot.hist(density = True, bins =5, stacked=True, histtype='bar', alpha=0.5, fill=True)
-    # min_c.plot.hist( histtype='step', stacked=True, fill=False)
-    # min_c.plot.hist(alpha=0.5,histtype='bar')
+    only_int.apply(mean_normalization)
+    CMC = only_int[hist_col]
+    CMC = pd.DataFrame([points[house_column],CMC]).T
+    sns.countplot(x=house_column, data=CMC)
     plt.show()
-
