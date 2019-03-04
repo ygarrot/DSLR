@@ -3,15 +3,15 @@ import pandas as pd
 from Ft_array import *
 from describe import *
 from histogram import *
-from scatter import *
+from scatter_plot import *
 from pair_plot import *
 import argparse
 from pandas.api.types import is_string_dtype
 
 
 def main():
-    parser = argparse.ArgumentParser(description='process linear regression')
-    parser.add_argument('-s', '--scrypt', type=str, dest="scrypt", choices=['describe', 'histogram', 'scatter', 'pair_plot'],
+    parser = argparse.ArgumentParser(description='j\'suis un choixpeau magic')
+    parser.add_argument('-s', '--scrypt', type=str, dest="scrypt", choices=['describe', 'histogram', 'scatter_plot', 'pair_plot'],
     help="function scrypt")
     parser.add_argument(type=str, dest="dataset",
                              help="describe dataset")
