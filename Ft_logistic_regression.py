@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from math import isnan
 
 class Ft_logistic_regression():
 
@@ -86,31 +85,27 @@ class Ft_logistic_regression():
         # normalize the raw data stored in X matrix using mean max normalization
         for j in range(self.n):
             self.X[:, j] = (self.X[:, j] - min(self.raw_data[:, j])) / (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
-        print(self.X)
-        print(self.y)
 
     def __get_scaled_thetas(self):
         self.thetas = np.empty(self.n)
         for j in range(0, self.n):
             self.thetas[j] = self.raw_thetas[j] * (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
-        print(self.thetas)
 
     def __gradient_descent_epoch(self):
         new_thetas = np.zeros(self.n)
-        #print(new_thetas)
         for i in range(self.m):
             delta = self.__predict(i) - self.y[i]
-         #   print(self.y[i])
             for j in range(self.n):
-                new_thetas[j] += delta * self.X[i, j]
-        #print(new_thetas)
+                if not np.isnan(self.X[i,j]):
+                    new_thetas[j] += delta * self.X[i, j]
         for j in range(self.n):
-            new_thetas[j] = self.thetas[j] - self.learning_rate / float(self.m) * new_thetas[j]
+            new_thetas[j] = self.thetas[j] - (self.learning_rate / float(self.m)) * new_thetas[j]
         return new_thetas
 
     def __predict(self, i):
         h = 0
         for j in range(self.n):
+            if not (np.isnan(self.X[i, j])):
                 h += self.thetas[j] * self.X[i, j]
         h = self.__sigmoid(h)
         return h
