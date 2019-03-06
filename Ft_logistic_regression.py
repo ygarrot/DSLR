@@ -41,20 +41,35 @@ class Ft_logistic_regression():
             self.__get_scaled_thetas()
         except:
             print('error in raw_thetas format, setting thetas to 0')
-            self.thetas = np.zeros(self.n)
-            self.raw_thetas = np.zeros(self.n)
+            self.thetas = np.zeros(self.n + 1)
+            self.raw_thetas = np.zeros(self.n + 1)
 
     def gradient_descent(self):
-        for n in range (0, self.epochs):
+        for n in range (0, 2000):
             self.thetas = self.__gradient_descent_epoch()
-            #self.cost.append(self.get_cost())
+            cost = self.get_cost()
+            self.cost.append(cost)
+            if (n % 100 == 0):
+                print(cost)
+            if (cost < 0.1):
+                print('Learning stops a epoch')
+                print(n)
+                print('with cost')
+                print(cost)
+                break
         self.raw_thetas = np.empty(len(self.thetas))
-        for j in range(self.n):
-            self.raw_thetas[j] = self.thetas[j] / (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
+        print(self.thetas)
+        print(self.raw_thetas)
+        for j in range(1, self.n + 1):
+            self.raw_thetas[j] = self.thetas[j] / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
+        self.raw_thetas[0] = np.mean(self.y)
+        for j in range(1, self.n + 1):
+            self.raw_thetas[0] -= self.raw_thetas[j] * np.nanmean(self.raw_data[:, j - 1])
+        print(self.raw_thetas)
 
     def get_cost(self):
         cost = 0;
-        for i in range (1, self.m):
+        for i in range (0, self.m):
             cost += self.y[i] * np.log(self.__predict(i)) + (1 - self.y[i]) * np.log(1 - self.__predict(i))
         cost /= float(self.m)
         return -cost
@@ -76,35 +91,37 @@ class Ft_logistic_regression():
 
     # Adds a column filled with 1 (So Theta0 * x0 = Theta0) and apply MinMax normalization to the raw data
     def __get_scaled_data(self):
-        self.X = np.empty(shape=(self.m, self.n)) # create the data matrix of size m * n
+        self.X = np.empty(shape=(self.m, self.n + 1)) # create the data matrix of size m * n
+        self.X[:, 0] = 1
         self.y = np.empty(shape=(self.m, 1))
         self.y = self.raw_data[:, self.raw_data.shape[1] - 1] # copy y values of rawdata to y vector
         # assign raw data to X matrix
         for j in range(0, self.n):
-            self.X[:, j] = self.raw_data[:, j]
+            self.X[:, j + 1] = self.raw_data[:, j]
         # normalize the raw data stored in X matrix using mean max normalization
-        for j in range(self.n):
-            self.X[:, j] = (self.X[:, j] - min(self.raw_data[:, j])) / (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
+        for j in range(1, self.n + 1):
+            self.X[:, j] = (self.X[:, j] - min(self.raw_data[:, j - 1])) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
 
     def __get_scaled_thetas(self):
-        self.thetas = np.empty(self.n)
+        self.thetas = np.empty(self.n + 1)
+        self.thetas[0] = self.raw_thetas[len(self.raw_thetas) - 1]
         for j in range(0, self.n):
-            self.thetas[j] = self.raw_thetas[j] * (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
+            self.thetas[j + 1] = self.raw_thetas[j + 1] * (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
 
     def __gradient_descent_epoch(self):
-        new_thetas = np.zeros(self.n)
+        new_thetas = np.zeros(self.n + 1)
         for i in range(self.m):
             delta = self.__predict(i) - self.y[i]
-            for j in range(self.n):
+            for j in range(self.n + 1):
                 if not np.isnan(self.X[i,j]):
                     new_thetas[j] += delta * self.X[i, j]
-        for j in range(self.n):
+        for j in range(self.n + 1):
             new_thetas[j] = self.thetas[j] - (self.learning_rate / float(self.m)) * new_thetas[j]
         return new_thetas
 
     def __predict(self, i):
         h = 0
-        for j in range(self.n):
+        for j in range(self.n + 1):
             if not (np.isnan(self.X[i, j])):
                 h += self.thetas[j] * self.X[i, j]
         h = self.__sigmoid(h)
