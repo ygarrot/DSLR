@@ -1,13 +1,13 @@
-import numpy as np
 import pandas as pd
 from Ft_array import *
-import argparse
-from pandas.api.types import is_string_dtype
+import sys
 
-def describe(file):
+def describe(file, get_head=False):
     points = pd.read_csv(file).dropna()
 
     only_int = points.select_dtypes(exclude=['object'])
+    if (get_head is True):
+        only_int = only_int.head()
 
     count = only_int.apply(ft_count)
     std = only_int.apply(ft_std)
@@ -28,6 +28,9 @@ def describe(file):
             "75%",
             "Max"]
 
-    print(only_int.describe().to_string())
+    # print(only_int.describe().to_string())
     print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c], index=name).to_string(col_space=2))
 
+if __name__ == '__main__':
+    if (sys.argv[1]):
+        describe(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")
