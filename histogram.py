@@ -19,7 +19,7 @@ def histogram(file, get_head=False):
             plt.show()
             return
 
-    cur_col = pd.DataFrame([points[house_column], only_int[hist_col]).T
+    cur_col = pd.DataFrame([points[house_column], only_int[hist_col]]).T
     sns.catplot(x=house_column, y=hist_col, kind='bar', data=cur_col)
     plt.show()
 

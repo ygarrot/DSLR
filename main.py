@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 from Ft_array import *
-from describe import *
-from histogram import *
-from scatter_plot import *
-from pair_plot import *
+import describe as descr
+import histogram as histo
+import scatter_plot as scatter
+import pair_plot as pair
 import argparse
 from pandas.api.types import is_string_dtype
 
@@ -18,13 +18,13 @@ def main():
         
     opt = parser.parse_args()
     if (opt.scrypt == 'describe'):
-        describe(opt.dataset)
+        descr.describe(opt.dataset)
     elif (opt.scrypt == 'histogram'):
-        histogram(opt.dataset)
+        histo.histogram(opt.dataset)
     elif (opt.scrypt == 'scatter_plot'):
-        scatter(opt.dataset)
+        scatter.scatter(opt.dataset)
     elif (opt.scrypt == 'pair_plot'):
-        pair_plot(opt.dataset)
+        pair.pair_plot(opt.dataset)
 
 if __name__ == '__main__':
     main()
