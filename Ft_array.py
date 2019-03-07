@@ -8,6 +8,7 @@ def ft_mediane(array):
     if (lena % 2):
         return (array[int(lena / 2)] + array[int((lena + 1) / 2)]) / 2
     return array[lena / 2]
+
 def ft_min(array):
     ret = False 
     for rows in array:
