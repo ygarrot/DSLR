@@ -41,16 +41,14 @@ class Ft_logistic_regression():
     def gradient_descent(self):
         for n in range (0, 20000):
             self.thetas = self.__gradient_descent_epoch()
-            if (n % 100 == 0):
+            if (n % 10 == 0):
                 cost = self.get_cost()
-                print(cost)
             if (cost < 0.1):
                 break
         self.raw_thetas = np.empty(len(self.thetas))
-        for j in range(1, self.n + 1):
-            self.raw_thetas[j] = (self.thetas[j]) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
         self.raw_thetas[0] = np.mean(self.y)
         for j in range(1, self.n + 1):
+            self.raw_thetas[j] = (self.thetas[j]) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
             self.raw_thetas[0] -= self.raw_thetas[j] * np.nanmean(self.raw_data[:, j - 1])
 
     def get_cost(self):
@@ -87,17 +85,11 @@ class Ft_logistic_regression():
             if not np.isnan(self.X[i]).any():
                 for j in range(self.n + 1):
                     new_thetas[j] += delta * self.X[i, j]
-        #for j in range(self.n + 1):
-        #    new_thetas[j] = self.thetas[j] - (self.learning_rate / float(self.m)) * new_thetas[j]
         new_thetas[:] = self.thetas[:] - (self.learning_rate / float(self.m)) * new_thetas[:]
         return new_thetas
 
     def __predict(self, i):
         h = self.__sigmoid(np.dot(self.thetas, self.X[i]))
-        #h = 0
-        #for j in range(self.n + 1):
-        #    h += self.thetas[j] * self.X[i, j]
-        #h = self.__sigmoid(h)
         return h
 
     def __sigmoid(self, h):
