@@ -28,66 +28,38 @@ class Ft_logistic_regression():
     thetas are the normalized thetas vector of size n + 1. They're updated at each epochs of the gradient_descent function
     """
 
-    def __init__(self, thetas, data, epochs = 1000, learning_rate = 0.001):
+    def __init__(self, data, epochs = 1000, learning_rate = 0.001):
         self.cost = []
         self.epochs = epochs
         self.learning_rate = learning_rate
-        self.raw_thetas = thetas
         self.raw_data = data
         self.m = self.raw_data.shape[0];
         self.n = self.raw_data.shape[1] - 1;
         self.__get_scaled_data()
-        try:
-            self.__get_scaled_thetas()
-        except:
-            print('error in raw_thetas format, setting thetas to 0')
-            self.thetas = np.zeros(self.n + 1)
-            self.raw_thetas = np.zeros(self.n + 1)
+        self.thetas = np.zeros(self.n + 1)
 
     def gradient_descent(self):
-        for n in range (0, 2000):
+        for n in range (0, 20000):
             self.thetas = self.__gradient_descent_epoch()
-            cost = self.get_cost()
-            self.cost.append(cost)
             if (n % 100 == 0):
+                cost = self.get_cost()
                 print(cost)
             if (cost < 0.1):
-                print('Learning stops a epoch')
-                print(n)
-                print('with cost')
-                print(cost)
                 break
         self.raw_thetas = np.empty(len(self.thetas))
-        print(self.thetas)
-        print(self.raw_thetas)
         for j in range(1, self.n + 1):
-            self.raw_thetas[j] = self.thetas[j] / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
+            self.raw_thetas[j] = (self.thetas[j]) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
         self.raw_thetas[0] = np.mean(self.y)
         for j in range(1, self.n + 1):
             self.raw_thetas[0] -= self.raw_thetas[j] * np.nanmean(self.raw_data[:, j - 1])
-        print(self.raw_thetas)
 
     def get_cost(self):
         cost = 0;
         for i in range (0, self.m):
-            cost += self.y[i] * np.log(self.__predict(i)) + (1 - self.y[i]) * np.log(1 - self.__predict(i))
+            if not np.isnan(self.X[i]).any():
+                cost += self.y[i] * np.log(self.__predict(i)) + (1 - self.y[i]) * np.log(1 - self.__predict(i))
         cost /= float(self.m)
         return -cost
-
-    def show(self):
-        plt.subplot(1, 2, 1)
-        plt.plot(self.raw_data[:, 0], self.raw_data[:, 1], 'r.')
-        print(max(self.raw_data[:, 0]))
-        t0 = np.mean(self.y) - (np.mean(self.raw_data[:, 0]) * self.thetas[1])
-        plt.plot([0, max(self.raw_data[:, 0])], [self.raw_thetas[0], self.raw_thetas[0] + self.raw_thetas[1] * max(self.raw_data[:, 0])])
-        plt.ylabel('y')
-        plt.xlabel('x')
-        plt.subplot(1, 2, 2)
-        plt.plot(self.cost)
-        plt.ylabel('cost')
-        plt.xlabel('epochs')
-        plt.tight_layout()
-        plt.show()
 
     # Adds a column filled with 1 (So Theta0 * x0 = Theta0) and apply MinMax normalization to the raw data
     def __get_scaled_data(self):
@@ -110,22 +82,22 @@ class Ft_logistic_regression():
 
     def __gradient_descent_epoch(self):
         new_thetas = np.zeros(self.n + 1)
-        print(self.y)
         for i in range(self.m):
             delta = self.__predict(i) - self.y[i]
-            for j in range(self.n + 1):
-                if not np.isnan(self.X[i,j]):
+            if not np.isnan(self.X[i]).any():
+                for j in range(self.n + 1):
                     new_thetas[j] += delta * self.X[i, j]
-        for j in range(self.n + 1):
-            new_thetas[j] = self.thetas[j] - (self.learning_rate / float(self.m)) * new_thetas[j]
+        #for j in range(self.n + 1):
+        #    new_thetas[j] = self.thetas[j] - (self.learning_rate / float(self.m)) * new_thetas[j]
+        new_thetas[:] = self.thetas[:] - (self.learning_rate / float(self.m)) * new_thetas[:]
         return new_thetas
 
     def __predict(self, i):
-        h = 0
-        for j in range(self.n + 1):
-            if not (np.isnan(self.X[i, j])):
-                h += self.thetas[j] * self.X[i, j]
-        h = self.__sigmoid(h)
+        h = self.__sigmoid(np.dot(self.thetas, self.X[i]))
+        #h = 0
+        #for j in range(self.n + 1):
+        #    h += self.thetas[j] * self.X[i, j]
+        #h = self.__sigmoid(h)
         return h
 
     def __sigmoid(self, h):
