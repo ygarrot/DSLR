@@ -110,6 +110,7 @@ class Ft_logistic_regression():
 
     def __gradient_descent_epoch(self):
         new_thetas = np.zeros(self.n + 1)
+        print(self.y)
         for i in range(self.m):
             delta = self.__predict(i) - self.y[i]
             for j in range(self.n + 1):
