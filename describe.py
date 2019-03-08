@@ -19,6 +19,7 @@ def describe(file, get_head=False):
     min_c = only_int.apply(ft_min)
     max_c = only_int.apply(ft_max)
     mediane = only_int.apply(ft_mediane)
+    mode = only_int.apply(ft_mode)
 
     name = ["Count",
             "Mean",
@@ -28,10 +29,11 @@ def describe(file, get_head=False):
             "50%",
             "75%",
             "Max",
-            "med",]
+            "med",
+            "mode"]
 
     # print(only_int.describe().to_string())
-    print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c, mediane], index=name).to_string(col_space=2))
+    print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c, mediane, mode], index=name).to_string(col_space=2))
 
 if __name__ == '__main__':
     if (sys.argv[1]):

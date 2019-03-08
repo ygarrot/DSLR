@@ -1,4 +1,5 @@
 from feature_scaling import *
+import pandas as pd
 import math
 
 def ft_mediane(array):
@@ -20,6 +21,11 @@ def ft_max(array):
     for rows in array:
         ret = rows if ret is False or rows > ret else ret
     return ret
+
+def ft_mode(array):
+    lst = list(array.astype(int))
+    return(max(lst, key=lst.count))
+
 
 def ft_mean(array):
     return sum(array) / len(array)
