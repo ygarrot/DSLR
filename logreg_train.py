@@ -48,7 +48,6 @@ def train():
     thread = {}
     for key in hogwarts:
         thread[key] = multi_train(key, hogwarts, hogwarts_thetas)
-    print(thread)
     for key in thread:
         thread[key].start()
     for key in thread:
