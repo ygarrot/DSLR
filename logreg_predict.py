@@ -28,10 +28,8 @@ def predict():
             if key != 'Index' and key != 'Hogwarts House':
                 test[i] = (test[i] - min(data[key])) / (max(data[key]) - min(data[key]))
                 i += 1
-        houses[0] = get_value(thetas[0], test)
-        houses[1] = get_value(thetas[1], test)
-        houses[2] = get_value(thetas[2], test)
-        houses[3] = get_value(thetas[3], test)
+        for i in range(4):
+            houses[i] = get_value(thetas[i], test)
         if (houses[0] > houses[1] and houses[0] > houses[2] and houses[0] > houses[3]):
             hogwarts.loc[elem, 'Hogwarts House'] = 'Gryffindor'
         elif (houses[1] > houses[2] and houses[1] > houses[3]):

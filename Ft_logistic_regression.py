@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from random import randint
+from Ft_array import *
 
 class Ft_logistic_regression():
 
@@ -46,9 +48,9 @@ class Ft_logistic_regression():
             if (cost < 0.1):
                 break
         self.raw_thetas = np.empty(len(self.thetas))
-        self.raw_thetas[0] = np.mean(self.y)
+        self.raw_thetas[0] = ft_mean(self.y)
         for j in range(1, self.n + 1):
-            self.raw_thetas[j] = (self.thetas[j]) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
+            self.raw_thetas[j] = (self.thetas[j]) / (ft_max(self.raw_data[:, j - 1]) - ft_min(self.raw_data[:, j - 1]))
             self.raw_thetas[0] -= self.raw_thetas[j] * np.nanmean(self.raw_data[:, j - 1])
 
     def get_cost(self):
@@ -59,7 +61,7 @@ class Ft_logistic_regression():
         cost /= float(self.m)
         return -cost
 
-    # Adds a column filled with 1 (So Theta0 * x0 = Theta0) and apply MinMax normalization to the raw data
+    # Adds a column filled with 1 (So Theta0 * x0 = Theta0) and apply ft_minft_max normalization to the raw data
     def __get_scaled_data(self):
         self.X = np.empty(shape=(self.m, self.n + 1)) # create the data matrix of size m * n
         self.X[:, 0] = 1
@@ -68,19 +70,24 @@ class Ft_logistic_regression():
         # assign raw data to X matrix
         for j in range(0, self.n):
             self.X[:, j + 1] = self.raw_data[:, j]
-        # normalize the raw data stored in X matrix using mean max normalization
+        # normalize the raw data stored in X matrix using min max normalization
         for j in range(1, self.n + 1):
-            self.X[:, j] = (self.X[:, j] - min(self.raw_data[:, j - 1])) / (max(self.raw_data[:, j - 1]) - min(self.raw_data[:, j - 1]))
+            self.X[:, j] = (self.X[:, j] - ft_min(self.raw_data[:, j - 1])) / (ft_max(self.raw_data[:, j - 1]) - ft_min(self.raw_data[:, j - 1]))
 
     def __get_scaled_thetas(self):
         self.thetas = np.empty(self.n + 1)
         self.thetas[0] = self.raw_thetas[len(self.raw_thetas) - 1]
         for j in range(0, self.n):
-            self.thetas[j + 1] = self.raw_thetas[j + 1] * (max(self.raw_data[:, j]) - min(self.raw_data[:, j]))
+            self.thetas[j + 1] = self.raw_thetas[j + 1] * (ft_max(self.raw_data[:, j]) - ft_min(self.raw_data[:, j]))
 
     def __gradient_descent_epoch(self):
         new_thetas = np.zeros(self.n + 1)
+        samples = list(range(100))
         for i in range(self.m):
+            j = randint(1, self.m)
+            if (j < 100):
+                samples[j] = i
+        for i in samples:
             delta = self.__predict(i) - self.y[i]
             if not np.isnan(self.X[i]).any():
                 for j in range(self.n + 1):
