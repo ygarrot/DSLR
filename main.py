@@ -15,7 +15,7 @@ def main():
     help="function scrypt")
     parser.add_argument(type=str, dest="dataset",
                              help="describe dataset")
-        
+
     opt = parser.parse_args()
     if (opt.scrypt == 'describe'):
         descr.describe(opt.dataset)

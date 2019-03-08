@@ -11,6 +11,7 @@ def describe(file, get_head=False):
 
     count = only_int.apply(ft_count)
     std = only_int.apply(ft_std)
+    std_med = only_int.apply(ft_std_mediane)
     mean = only_int.apply(ft_mean)
     median = only_int.apply(ft_median)
     first_quar = only_int.apply(ft_first_quar)
@@ -24,6 +25,7 @@ def describe(file, get_head=False):
     name = ["Count",
             "Mean",
             "Std",
+            "Std med",
             "Min",
             "25%",
             "50%",
@@ -33,8 +35,11 @@ def describe(file, get_head=False):
             "mode"]
 
     # print(only_int.describe().to_string())
-    print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c, mediane, mode], index=name).to_string(col_space=2))
+    print(pd.DataFrame([count, mean, std, std_med, min_c, first_quar, median, third_quar, max_c, mediane, mode], index=name).to_string(col_space=2))
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
-        describe(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")
+        try:
+            describe(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")
+        except:
+            print("error")

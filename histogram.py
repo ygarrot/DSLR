@@ -28,4 +28,7 @@ def histogram(file, get_head=False):
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
-        histogram(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-a")
+        try:
+            histogram(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-a")
+        except:
+            print("error")

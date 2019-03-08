@@ -20,4 +20,7 @@ def scatter(file, get_head=False):
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1 ):
-        scatter(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")
+        try:
+            scatter(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")
+        except:
+            print("error")

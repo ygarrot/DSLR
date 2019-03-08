@@ -30,6 +30,16 @@ def ft_mode(array):
 def ft_mean(array):
     return sum(array) / len(array)
 
+def ft_std_mediane(array):
+    lena = len(array) - 1
+    suma = 0
+    meda = ft_mediane(array)
+    for elem in array:
+        suma += (elem - meda)**2
+    std = (1 / lena) * suma
+    std = math.sqrt(std)
+    return std
+
 def ft_std(array):
     lena = len(array) - 1
     suma = 0
