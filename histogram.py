@@ -18,9 +18,12 @@ def histogram(file, get_head=False):
             sns.catplot(x=house_column, y=col, kind='bar', data=cur_col)
             plt.show()
         return
-
     cur_col = pd.DataFrame([points[house_column], only_int[hist_col]]).T
-    sns.catplot(x=house_column, y=hist_col, kind='bar', data=cur_col)
+    d = {}
+    for truc in cur_col.groupby([points[house_column]]):
+        d[truc[0]] = truc[1][hist_col]
+    df = pd.DataFrame(d)
+    df.plot.hist(alpha=0.5)
     plt.show()
 
 if __name__ == '__main__':
