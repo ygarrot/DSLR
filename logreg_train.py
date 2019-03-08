@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from Ft_logistic_regression import Ft_logistic_regression
 from threading import Thread
+import argparse
 
 class multi_train(Thread):
 
@@ -56,8 +57,16 @@ def train():
     np.savetxt('thetas.csv', thetas, delimiter=',')
 
 def main():
-    train()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=str, default="none", help="dataset_train.csv")
+    args = parser.parse_args()
+    try:
+        if (args.path == "dataset_train.csv"):
+            train()
+        else:
+            print("wrong path")
+    except:
+        print("Error")
 
 if __name__ == '__main__':
-    print("start")
     main()

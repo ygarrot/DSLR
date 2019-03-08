@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import csv
 from Ft_logistic_regression import Ft_logistic_regression
-
+import argparse
 
 def get_value(thetas, elem):
     test = [1] + elem[2:]
@@ -43,7 +43,17 @@ def predict():
     f.write(file_content)
     f.close()
 def main():
-    predict()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=str, default="none", help="dataset_train.csv")
+    parser.add_argument("path2", type=str, default="none", help="thetas.csv")
+    args = parser.parse_args()
+    try:
+        if (args.path == "dataset_test.csv" and args.path2 == "thetas.csv"):
+            predict()
+        else:
+            print("wrong path")
+    except:
+        print("Error")
 
 if __name__ == '__main__':
     main()
