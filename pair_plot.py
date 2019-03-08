@@ -15,7 +15,7 @@ def pair_plot(file, get_head=False):
     points = pd.read_csv(file).dropna()
 
     if (get_head is True):
-        points = points.head()
+        points = points.head(200)
     only_int = points.select_dtypes(exclude=['object'])
     min_c = only_int.apply(mean_normalization)
     # only_int.apply(remove, index=[0])
@@ -26,5 +26,5 @@ def pair_plot(file, get_head=False):
     plt.show()
 
 if __name__ == '__main__':
-    if (sys.argv[1]):
+    if (len(sys.argv) > 1):
         pair_plot(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")

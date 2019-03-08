@@ -12,12 +12,12 @@ def scatter(file, get_head=False):
 
     points = pd.read_csv(file)
     if (get_head is True):
-        points = points.head()
+        points = points.head(50)
     only_int = points.select_dtypes(exclude=['object'])
     sns.scatterplot(data=points, hue=house_column, x=first, y=second)
     plt.show()
 
 
 if __name__ == '__main__':
-    if (sys.argv[1]):
+    if (len(sys.argv) > 1 ):
         scatter(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")

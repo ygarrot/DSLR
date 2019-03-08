@@ -36,5 +36,5 @@ def describe(file, get_head=False):
     print(pd.DataFrame([count, mean, std, min_c, first_quar, median, third_quar, max_c, mediane, mode], index=name).to_string(col_space=2))
 
 if __name__ == '__main__':
-    if (sys.argv[1]):
+    if (len(sys.argv) > 1):
         describe(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-h")

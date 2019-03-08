@@ -27,5 +27,5 @@ def histogram(file, get_head=False):
     plt.show()
 
 if __name__ == '__main__':
-    if (sys.argv[1]):
+    if (len(sys.argv) > 1):
         histogram(sys.argv[1], len(sys.argv) > 2 and sys.argv[2] == "-a")
